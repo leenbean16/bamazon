@@ -1,46 +1,48 @@
-DROP DATABASE bamazon;
-
+-- DROP DATABASE bamazon;
 create database bamazon;
 
 use bamazon;
 
 CREATE TABLE products (
-	id integer(11) auto_increment not null,
-    product_name varchar(30) not null,
-    department_name varchar(30) not null,
-    price integer(10) not null,
-    stock_quantity integer(10) not null,
-    primary key (id)
+    itemID INTEGER(11) AUTO_INCREMENT NOT NULL,
+    ProductName VARCHAR(30) NOT NULL,
+    Department VARCHAR(30) NOT NULL,
+    Price INTEGER(10) NOT NULL,
+    StockQuantity INTEGER(10) NOT NULL,
+    PRIMARY KEY (itemID)
 );
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("shirt", "fashion", 30, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("pants", "fashion", 25, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("shoes", "shoes", 50, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("shorts", "fashion", 20, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("skirt", "fashion", 40, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("bra", "lingerie", 40, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("undies", "lingerie", 20, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("gloves", "fashion", 10, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("hat", "fashion", 50, 15);
 
-INSERT INTO products (product_name, department_name, price, stock_quantity)
+INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("scarf", "fashion", 10, 15);
 
-select * from products;
+SELECT 
+    *
+FROM
+    products;
