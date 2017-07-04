@@ -20,6 +20,8 @@
     "cli-table": "^0.3.1",
     "colors": "^1.1.2",
     "console.table": "^0.8.0",
+    "easy-mysql-promise": "^0.1.0",
+    "easy-table": "^1.1.0",
     "inquirer": "^3.1.1",
     "mysql": "^2.13.0",
     "prompt": "^1.0.0"
