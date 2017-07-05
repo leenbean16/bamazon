@@ -87,7 +87,7 @@ var checkAndBuy2 = function() {
 
                 } else {
                     console.log("Sorry, we only have" + res[chosenId].StockQuantity + " in our Inventory.");
-                    checkAndBuy2();
+
                 }
             })
         }
