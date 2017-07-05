@@ -17,60 +17,83 @@ var inquirer = require('inquirer');
 var purchased = [];
 var command = process.argv[2]
 
-var con = mysql.createConnection({
+var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "display:none;",
     database: 'bamazon'
 });
 
-con.connect(function(err) {
-    if (err) throw err;
-    console.log("\n=========================================================================".rainbow);
-    console.log("                              Welcome to Bamazon.                        ".bgBlue);
-    console.log("=========================================================================".rainbow);
-    console.log("        Type node bamazonCustomer.js customer/manager/supervisor.        ".bgBlue);
-    console.log("=========================================================================".rainbow);
-});
+console.log("\n=========================================================================".rainbow);
+console.log("                              Welcome to Bamazon.                        ".bgBlue);
+console.log("=========================================================================".rainbow);
+console.log("        Type node bamazonCustomer.js customer/manager/supervisor.        ".bgBlue);
+console.log("=========================================================================".rainbow);
 
 var table = new Table({
     head: ['ID', 'Product', 'Department', 'Price', 'Stock'],
     colWidths: [13, 13, 14, 13, 13]
 });
 
-con.query('SELECT * FROM products;', function(err, res) {
-
+var checkAndBuy2 = function() {
+    connection.query('SELECT * FROM products', function(err, res) {
         for (var i = 0; i < res.length; i++) {
             table.push(
                 [res[i].itemID, res[i].ProductName, res[i].Department, res[i].Price.toFixed(2), res[i].StockQuantity]
             );
         }
+
         console.log(table.toString());
 
         runCommand(process.argv[2]);
 
         function runCommand(command) {
             inquirer.prompt([{
-                    type: "list",
-                    message: "What would you like to purchase?",
-                    choices: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-                    name: "option"
-                }, {
-                    type: "confirm",
-                    message: "Are you sure:",
-                    name: "confirm",
-                    default: true
-                }, {
-                    type: "amount",
-                    message: "How many would you like?",
-                    name: "amount"
-                }, {
-                    type: "list",
-                    message: "What do you want to do?",
-                    choices: ["Keep Shopping", "Check Out"],
-                    name: "choice"
-                }, ])
-        }
-    }
+                name: "itemId",
+                type: "input",
+                message: "What is the item ID you would like to buy?",
+                validate: function(value) {
+                    if (isNaN(value) == false) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }, {
+                name: "Quantity",
+                type: "input",
+                message: "How many of this item would you like to buy?",
+                validate: function(value) {
+                    if (isNaN(value) == false) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }]).then(function(answer) {
+                var chosenId = answer.itemId - 1
+                var chosenProduct = res[chosenId]
+                var chosenQuantity = answer.Quantity
+                if (chosenQuantity < res[chosenId].StockQuantity) {
+                    console.log("Your total for " + "(" + answer.Quantity + ")" + " - " + res[chosenId].ProductName + " is: " + res[chosenId].Price.toFixed(2) * chosenQuantity);
+                    connection.query("UPDATE products SET ? WHERE ?", [{
+                        StockQuantity: res[chosenId].StockQuantity - chosenQuantity
+                    }, {
+                        id: res[chosenId].id
+                    }], function(err, res) {
+                        //console.log(err);
+                        checkAndBuy2();
+                    });
 
-);
+                } else {
+                    console.log("Sorry, we only have" + res[chosenId].StockQuantity + " in our Inventory.");
+                    checkAndBuy2();
+                }
+            })
+        }
+    });
+}
+
+
+
+checkAndBuy2();
