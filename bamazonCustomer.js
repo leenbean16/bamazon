@@ -35,7 +35,7 @@ var table = new Table({
     colWidths: [13, 13, 14, 13, 13]
 });
 
-var checkAndBuy2 = function() {
+var shop = function() {
     connection.query('SELECT * FROM products', function(err, res) {
         for (var i = 0; i < res.length; i++) {
             table.push(
@@ -82,7 +82,7 @@ var checkAndBuy2 = function() {
                         id: res[chosenId].id
                     }], function(err, res) {
                         //console.log(err);
-                        checkAndBuy2();
+                        shop();
                     });
 
                 } else {
@@ -96,4 +96,4 @@ var checkAndBuy2 = function() {
 
 
 
-checkAndBuy2();
+shop();
