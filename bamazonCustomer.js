@@ -30,12 +30,13 @@ console.log("===================================================================
 console.log("        Type node bamazonCustomer.js customer/manager/supervisor.        ".bgBlue);
 console.log("=========================================================================".rainbow);
 
-var table = new Table({
-    head: ['ID', 'Product', 'Department', 'Price', 'Stock'],
-    colWidths: [13, 13, 14, 13, 13]
-});
 
-var checkAndBuy2 = function() {
+
+var shop = function() {
+    var table = new Table({
+        head: ['ID', 'Product', 'Department', 'Price', 'Stock'],
+        colWidths: [13, 13, 14, 13, 13]
+    });
     connection.query('SELECT * FROM products', function(err, res) {
         for (var i = 0; i < res.length; i++) {
             table.push(
@@ -82,7 +83,7 @@ var checkAndBuy2 = function() {
                         id: res[chosenId].id
                     }], function(err, res) {
                         //console.log(err);
-                        checkAndBuy2();
+                        shop();
                     });
 
                 } else {
@@ -96,4 +97,4 @@ var checkAndBuy2 = function() {
 
 
 
-checkAndBuy2();
+shop();
