@@ -32,6 +32,8 @@ console.log("===================================================================
 
 
 
+
+
 var shop = function() {
     var table = new Table({
         head: ['ID', 'Product', 'Department', 'Price', 'Stock'],
@@ -94,7 +96,5 @@ var shop = function() {
         }
     });
 }
-
-
 
 shop();
