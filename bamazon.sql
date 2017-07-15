@@ -42,6 +42,10 @@ value("hat", "fashion", 50, 15);
 INSERT INTO products (ProductName, Department, Price, StockQuantity)
 value("scarf", "fashion", 10, 15);
 
+UPDATE products
+SET StockQuantity=100
+WHERE itemID=10;
+
 SELECT 
     *
 FROM
