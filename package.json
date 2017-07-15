@@ -23,6 +23,7 @@
     "easy-mysql-promise": "^0.1.0",
     "easy-table": "^1.1.0",
     "inquirer": "^3.1.1",
+    "math": "0.0.3",
     "mysql": "^2.13.0",
     "prompt": "^1.0.0"
   }
