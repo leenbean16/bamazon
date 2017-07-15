@@ -5,6 +5,7 @@ let inquirer = require('inquirer');
 let purchased = [];
 let command = process.argv[2]
 let secondCommand = process.argv[3]
+let cart = [];
 
 // Connection to MySQL database.
 let connection = mysql.createConnection({
@@ -19,6 +20,7 @@ console.log("\n-----------------------------------------------------------".rain
 console.log("                     Welcome to Bamazon.                   ");
 console.log(" Type: node BamazonCustomer.js customer/manager/supervisor.");
 console.log("-----------------------------------------------------------".rainbow);
+console.log("\n");
 
 let shop = function() {
     let table = new Table({
@@ -32,12 +34,14 @@ let shop = function() {
             );
         }
 
-        console.log(table.toString());
-        // table
+        // console.log(table.toString());
+        // // table
 
         runCommand(process.argv[2]);
 
         function runCommand(command) {
+            console.log(table.toString());
+            // table
             inquirer.prompt([{
                 // itemID picker prompt.
                 name: "itemId",
@@ -68,7 +72,17 @@ let shop = function() {
                 let chosenProduct = res[chosenId]
                 let chosenQuantity = answer.Quantity
                 if (chosenQuantity < chosenProduct.StockQuantity) {
-                    console.log("Your total for " + "(" + answer.Quantity + ")" + " - " + res[chosenId].ProductName + " is: " + res[chosenId].Price.toFixed(2) * chosenQuantity);
+                    console.log("\n-----------------------------------------------------------".rainbow);
+                    console.log("\nYour total for " + "(" + answer.Quantity + ")" + " - " + res[chosenId].ProductName + " is: " + res[chosenId].Price.toFixed(2) * chosenQuantity);
+                    console.log("                                                           ");
+                    console.log("-----------------------------------------------------------".rainbow);
+                    cart.push(res[chosenId].ProductName + " : " + res[chosenId].Price.toFixed(2) * chosenQuantity + " ");
+                    console.log("\nYour cart:");
+                    console.log(cart);
+                    total();
+                    console.log("\n");
+
+
                     connection.query("UPDATE products SET ? WHERE ?", [{
                         StockQuantity: chosenProduct.StockQuantity - chosenQuantity
                     }, {
@@ -81,7 +95,7 @@ let shop = function() {
                     });
                 } else {
                     console.log("\n-----------------------------------------------------------".rainbow);
-                    console.log("\nSorry, we only have " + " " + res[chosenId].StockQuantity + " " + " of the item " + " " + res[chosenId].ProductName + " in our Inventory.");
+                    console.log("\nSorry, we don'd have enough " + res[chosenId].ProductName + "'s" + " in our Inventory.");
                     console.log("                                                           ");
                     console.log("-----------------------------------------------------------".rainbow);
                     shop()
@@ -89,6 +103,14 @@ let shop = function() {
             })
         }
     });
+}
+
+function total() {
+    var total = 0;
+    for (var i = 0; i < total.length; i++) {
+        total += cart[i] << 0;
+        console.log(total);
+    }
 }
 
 function shopOrExit() {
